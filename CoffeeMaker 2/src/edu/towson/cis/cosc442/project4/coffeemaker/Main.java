@@ -18,6 +18,7 @@ public class Main {
     private static int amtSugar;
     private static int amtChocolate;
     private static Scanner input = new Scanner(System.in);
+    
     public static void mainMenu() {
         System.out.println("1. Add a recipe");
         System.out.println("2. Delete a recipe");
@@ -25,7 +26,8 @@ public class Main {
         System.out.println("4. Add inventory");
         System.out.println("5. Check inventory");
         System.out.println("6. Make coffee");
-        System.out.println("0. Exit\n");
+        System.out.println("0. Exit");
+        System.getProperty("line.separator");
         
         //Get user input
         int userInput = Integer.parseInt((inputOutput("Please press the number that corresponds to what you would like the coffee maker to do.")));
@@ -68,7 +70,7 @@ public class Main {
     }
     
     public static void getAmounts(){
-	    name = inputOutput("\nPlease enter the recipe name: ");
+	    name = inputOutput(System.getProperty("line.separator")+"Please enter the recipe name: ");
 	    
 	    //Read in recipe price
 	    System.out.println("Please enter the recipe price: $");
@@ -104,8 +106,12 @@ public class Main {
 		   
 		recipeAdded = coffeeMaker.addRecipe(r);
 	    
-	    if(recipeAdded) System.out.println(name + " successfully added.");
-	    else System.out.println(name + "could not be added.");
+	    if(recipeAdded){
+	    	System.out.println(name + " successfully added.");
+	    }
+	    else{
+	    	System.out.println(name + "could not be added.");
+	    }
 	    
 	    mainMenu();
     }
@@ -115,16 +121,17 @@ public class Main {
         for(int i = 0; i < recipes.length; i++) {
             System.out.println((i+1) + ". " + recipes[i].getName());
         }
-        String recipeToDeleteString = inputOutput("Please select the number of the recipe to delete.");
-        int recipeToDelete = stringToInt(recipeToDeleteString) - 1;
-	    if(recipeToDelete < 0) {
-	    	mainMenu();
-	    }
+        System.out.println("Please select the number of the recipe to delete.");
+        int recipeToDelete = getInput() - 1; 
         
         boolean recipeDeleted = coffeeMaker.deleteRecipe(recipes[recipeToDelete]);
         
-        if(recipeDeleted) System.out.println(recipes[recipeToDelete].getName() + " successfully deleted.");
-	    else System.out.println(recipes[recipeToDelete].getName() + "could not be deleted.");
+        if(recipeDeleted){
+        	System.out.println(recipes[recipeToDelete].getName() + " successfully deleted.");
+        }
+	    else{
+	    	System.out.println(recipes[recipeToDelete].getName() + "could not be deleted.");
+	    }
         
         mainMenu();
     }
@@ -149,40 +156,18 @@ public class Main {
         
         boolean recipeEdited = coffeeMaker.editRecipe(oldRecipe, newRecipe);
         
-        if(recipeEdited) System.out.println(oldRecipe.getName() + " successfully edited.");
-	    else System.out.println(oldRecipe.getName() + "could not be edited.");
+        if(recipeEdited){
+        	System.out.println(oldRecipe.getName() + " successfully edited.");
+        }
+	    else{
+	    	System.out.println(oldRecipe.getName() + "could not be edited.");
+	    }
         
         mainMenu();
     }
     
     public static void addInventory() {
-	    //Read in amt coffee
-	    String coffeeString = inputOutput("\nPlease enter the units of coffee to add: ");
-	    amtCoffee = stringToInt(coffeeString);
-	    if(amtCoffee < 0) {
-	    	mainMenu();
-	    }
-	    
-	    //Read in amt milk
-	    String milkString = inputOutput("\nPlease enter the units of milk to add: ");
-	    amtMilk = stringToInt(milkString);
-	    if(amtMilk < 0) {
-	    	mainMenu();
-	    }
-	    
-	    //Read in amt sugar
-	    String sugarString = inputOutput("\nPlease enter the units of sugar to add: ");
-	    amtSugar = stringToInt(sugarString);
-	    if(amtSugar < 0) {
-	    	mainMenu();
-	    }
-	    
-	    //Read in amt chocolate
-	    String chocolateString = inputOutput("\nPlease enter the units of chocolate to add: ");
-	    amtChocolate = stringToInt(chocolateString);
-	    if(amtChocolate < 0) {
-	    	mainMenu();
-	    }
+	    getAmounts();
 	    
         coffeeMaker.addInventory(amtCoffee, amtMilk, amtSugar, amtChocolate);
         mainMenu();
@@ -199,22 +184,16 @@ public class Main {
         for(int i = 0; i < recipes.length; i++) {
             System.out.println((i+1) + ". " + recipes[i].getName());
         }
-        String recipeToPurchaseString = inputOutput("Please select the number of the recipe to purchase.");
-        int recipeToPurchase = stringToInt(recipeToPurchaseString) -1;
-	    if(recipeToPurchase < 0) {
-	    	mainMenu();
-	    }
+        System.out.println("Please select the number of the recipe to purchase.");
+        int recipeToPurchase = getInput() - 1;
         
-        String amountPaid = inputOutput("Please enter the amount you wish to pay");
-        int amountToPay = stringToInt(amountPaid);
-	    if(amountToPay < 0) {
-	    	mainMenu();
-	    }
+        System.out.println("Please enter the amount you wish to pay");
+        int amountToPay = getInput();
         
         Recipe recipe = recipes[recipeToPurchase];
         int change = coffeeMaker.makeCoffee(recipe, amountToPay);
         
-        System.out.println("Your change is: " + change + "\n");
+        System.out.println("Your change is: " + change + System.getProperty("line.separator"));
         mainMenu();
     }
     
@@ -248,7 +227,8 @@ public class Main {
             returnInt = Integer.parseInt(value);
         }
         catch (NumberFormatException e) {
-            System.out.println("Please input an integer\n");
+            System.out.println("Please input an integer");
+            System.getProperty("line.separator");
         }
         return returnInt;
     }
@@ -259,7 +239,7 @@ public class Main {
      */
     public static void main(String[] args) {
 	    coffeeMaker = new CoffeeMaker();
-	    System.out.println("Welcome to the CoffeeMaker!\n");
+	    System.out.println("Welcome to the CoffeeMaker!"+System.getProperty("line.separator"));
 	    mainMenu();
 	}
 }
