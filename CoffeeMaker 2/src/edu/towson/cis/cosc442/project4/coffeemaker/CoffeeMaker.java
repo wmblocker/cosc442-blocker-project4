@@ -35,29 +35,22 @@ public class CoffeeMaker {
 	 * @return boolean */
 	public boolean addRecipe(Recipe r) {
         boolean canAddRecipe = true;
-            
+        Recipe checkRecipe = null;
+        int i = 0;
+        
         //Check if the recipe already exists
-        for(int i = 0; i < NUM_RECIPES; i++) {
-            if(r.equals(recipeArray[i])) {
-                canAddRecipe = false;
-            }
+        checkRecipe = getRecipeForName(r.getName());
+        if(checkRecipe != null){
+        	canAddRecipe = false;
         }
         
         //Check for an empty recipe, add recipe to first empty spot
         if(canAddRecipe) {
-        	int emptySpot = -1;
-        	for(int i = 0; i < NUM_RECIPES; i++) {
+        	for(i = 0; i < NUM_RECIPES; i++) {
         		if(!recipeFull[i]) {
-        			emptySpot = i;
-        			canAddRecipe = true;
+            		recipeArray[i] = r;
+            		recipeFull[i] = true;
         		}
-        	}
-        	if(emptySpot != -1) {
-        		recipeArray[emptySpot] = r;
-        		recipeFull[emptySpot] = true;
-        	}
-        	else {
-        		canAddRecipe = false;
         	}
         }
         return canAddRecipe;

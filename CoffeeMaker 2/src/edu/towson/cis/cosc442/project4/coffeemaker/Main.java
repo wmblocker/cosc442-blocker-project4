@@ -1,5 +1,5 @@
 package edu.towson.cis.cosc442.project4.coffeemaker;
-
+import java.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,7 +11,13 @@ import java.io.InputStreamReader;
  */
 public class Main {
     private static CoffeeMaker coffeeMaker;
-
+    private static String name;
+    private static int price;
+    private static int amtCoffee;
+    private static int amtMilk;
+    private static int amtSugar;
+    private static int amtChocolate;
+    private static Scanner input = new Scanner(System.in);
     public static void mainMenu() {
         System.out.println("1. Add a recipe");
         System.out.println("2. Delete a recipe");
@@ -22,55 +28,71 @@ public class Main {
         System.out.println("0. Exit\n");
         
         //Get user input
-        int userInput = stringToInt(inputOutput("Please press the number that corresponds to what you would like the coffee maker to do."));
+        int userInput = Integer.parseInt((inputOutput("Please press the number that corresponds to what you would like the coffee maker to do.")));
         
-        if(userInput == 1) addRecipe();
-        if(userInput == 2) deleteRecipe();
-        if(userInput == 3) editRecipe();
-        if(userInput == 4) addInventory();
-        if(userInput == 5) checkInventory();
-        if(userInput == 6) makeCoffee();
-        if(userInput == 0) System.exit(0);
+        menuDecision(userInput);
+
     }
-	public static void addRecipe() {
-	    //Read in recipe name
-	    String name = inputOutput("\nPlease enter the recipe name: ");
+    
+    public static void menuDecision(int userInput){
+        switch(userInput){
+        case 1:
+        	addRecipe();
+        	break;
+        case 2:
+        	deleteRecipe();
+        	break;
+        case 3:
+        	editRecipe();
+        	break;
+        case 4:
+        	addInventory();
+        	break;
+        case 5:
+        	checkInventory();
+        	break;
+        case 6:
+        	makeCoffee();
+        	break;
+        default:
+        	System.exit(0);
+        }
+    }
+    
+    public static int getInput(){
+    	int userInput = input.nextInt();
+    	while(!input.hasNextInt()){
+    		System.out.println();
+    	}
+    	return userInput;
+    }
+    
+    public static void getAmounts(){
+	    name = inputOutput("\nPlease enter the recipe name: ");
 	    
 	    //Read in recipe price
-	    String priceString = inputOutput("\nPlease enter the recipe price: $");
-	    int price = stringToInt(priceString);
-	    if(price < 0) {
-	    	mainMenu();
-	    }
+	    System.out.println("Please enter the recipe price: $");
+	    price = getInput();
 	    
 	    //Read in amt coffee
-	    String coffeeString = inputOutput("\nPlease enter the units of coffee in the recipe: ");
-	    int amtCoffee = stringToInt(coffeeString);
-	    if(amtCoffee < 0) {
-	    	mainMenu();
-	    }
+	    System.out.println("Please enter the units of coffee in the recipe: ");
+	    amtCoffee = getInput();
 	    
 	    //Read in amt milk
-	    String milkString = inputOutput("\nPlease enter the units of milk in the recipe: ");
-	    int amtMilk = stringToInt(milkString);
-	    if(amtMilk < 0) {
-	    	mainMenu();
-	    }
+	    System.out.println("Please enter the units of milk in the recipe: ");
+	    amtMilk = getInput();
 	    
 	    //Read in amt sugar
-	    String sugarString = inputOutput("\nPlease enter the units of sugar in the recipe: ");
-	    int amtSugar = stringToInt(sugarString);
-	    if(amtSugar < 0) {
-	    	mainMenu();
-	    }
+	    System.out.println("Please enter the units of sugar in the recipe: ");
+	    amtSugar = getInput();
 	    
 	    //Read in amt chocolate
-	    String chocolateString = inputOutput("\nPlease enter the units of chocolate in the recipe: ");
-	    int amtChocolate = stringToInt(chocolateString);
-	    if(amtChocolate < 0) {
-	    	mainMenu();
-	    }
-	    
+	    System.out.println("Please enter the units of chocolate in the recipe: ");
+	    amtChocolate = getInput();
+    }
+    
+	public static void addRecipe() {    
+	    getAmounts();
 	    boolean recipeAdded = false;
 		Recipe r = new Recipe();
 		r.setName(name);
@@ -112,52 +134,11 @@ public class Main {
         for(int i = 0; i < recipes.length; i++) {
             System.out.println((i+1) + ". " + recipes[i].getName());
         }
-        String recipeToEditString = inputOutput("Please select the number of the recipe to edit.");
-        int recipeToEdit = stringToInt(recipeToEditString) -1;
-	    if(recipeToEdit < 0) {
-	    	mainMenu();
-	    }
+        System.out.println("Please select the number of the recipe to edit.");
+        int recipeToEdit = getInput();
         
-        Recipe oldRecipe = recipes[recipeToEdit];
-        
-	    //Read in recipe name
-	    String name = inputOutput("\nPlease enter the recipe name: ");
-	    
-	    //Read in recipe price
-	    String priceString = inputOutput("\nPlease enter the recipe price: $");
-	    int price = stringToInt(priceString);
-	    if(price < 0) {
-	    	mainMenu();
-	    }
-	    
-	    //Read in amt coffee
-	    String coffeeString = inputOutput("\nPlease enter the units of coffee in the recipe: ");
-	    int amtCoffee = stringToInt(coffeeString);
-	    if(amtCoffee < 0) {
-	    	mainMenu();
-	    }
-	    
-	    //Read in amt milk
-	    String milkString = inputOutput("\nPlease enter the units of milk in the recipe: ");
-	    int amtMilk = stringToInt(milkString);
-	    if(amtMilk < 0) {
-	    	mainMenu();
-	    }
-	    
-	    //Read in amt sugar
-	    String sugarString = inputOutput("\nPlease enter the units of sugar in the recipe: ");
-	    int amtSugar = stringToInt(sugarString);
-	    if(amtSugar < 0) {
-	    	mainMenu();
-	    }
-	    
-	    //Read in amt chocolate
-	    String chocolateString = inputOutput("\nPlease enter the units of chocolate in the recipe: ");
-	    int amtChocolate = stringToInt(chocolateString);
-	    if(amtChocolate < 0) {
-	    	mainMenu();
-	    }
-	    
+        Recipe oldRecipe = recipes[recipeToEdit];        
+        getAmounts();    
 	    Recipe newRecipe = new Recipe();
 	    newRecipe.setName(name);
 	    newRecipe.setPrice(price);
@@ -177,28 +158,28 @@ public class Main {
     public static void addInventory() {
 	    //Read in amt coffee
 	    String coffeeString = inputOutput("\nPlease enter the units of coffee to add: ");
-	    int amtCoffee = stringToInt(coffeeString);
+	    amtCoffee = stringToInt(coffeeString);
 	    if(amtCoffee < 0) {
 	    	mainMenu();
 	    }
 	    
 	    //Read in amt milk
 	    String milkString = inputOutput("\nPlease enter the units of milk to add: ");
-	    int amtMilk = stringToInt(milkString);
+	    amtMilk = stringToInt(milkString);
 	    if(amtMilk < 0) {
 	    	mainMenu();
 	    }
 	    
 	    //Read in amt sugar
 	    String sugarString = inputOutput("\nPlease enter the units of sugar to add: ");
-	    int amtSugar = stringToInt(sugarString);
+	    amtSugar = stringToInt(sugarString);
 	    if(amtSugar < 0) {
 	    	mainMenu();
 	    }
 	    
 	    //Read in amt chocolate
 	    String chocolateString = inputOutput("\nPlease enter the units of chocolate to add: ");
-	    int amtChocolate = stringToInt(chocolateString);
+	    amtChocolate = stringToInt(chocolateString);
 	    if(amtChocolate < 0) {
 	    	mainMenu();
 	    }
