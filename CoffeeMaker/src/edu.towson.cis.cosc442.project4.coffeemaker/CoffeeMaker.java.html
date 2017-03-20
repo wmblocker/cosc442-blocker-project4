@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>CoffeeMaker.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">CoffeeMakerTest (Mar 19, 2017 11:46:11 PM)</a> &gt; <a href="../../index.html" class="el_group">CoffeeMaker</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">edu.towson.cis.cosc442.project4.coffeemaker</a> &gt; <span class="el_source">CoffeeMaker.java</span></div><h1>CoffeeMaker.java</h1><pre class="source lang-java linenums">package edu.towson.cis.cosc442.project4.coffeemaker;
+/**
+ * CoffeeMaker object
+ * @version $Revision: 1.0 $
+ */
+public class CoffeeMaker {
+	/** Array of recipes in coffee maker */
+	private Recipe [] recipeArray;
+	/** Number of recipes in coffee maker */
+<span class="fc" id="L10">	private final int NUM_RECIPES = 4;</span>
+	/** Array describing if the array is full */
+	private boolean [] recipeFull;
+	/** Inventory of the coffee maker */
+    private Inventory inventory;
+	
+    /**
+     * Constructor for the coffee maker
+     *
+     */
+<span class="fc" id="L20">	public CoffeeMaker() {</span>
+<span class="fc" id="L21">	    recipeArray = new Recipe[NUM_RECIPES];</span>
+<span class="fc" id="L22">	    recipeFull = new boolean[NUM_RECIPES];</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">		for(int i = 0; i &lt; NUM_RECIPES; i++) {</span>
+<span class="fc" id="L24">		   recipeArray[i] = new Recipe();</span>
+<span class="fc" id="L25">		   recipeFull[i] = false;</span>
+		}
+<span class="fc" id="L27">		inventory = new Inventory();</span>
+<span class="fc" id="L28">	}</span>
+
+	/**
+	 * Returns true if a recipe is successfully added to the 
+	 * coffee maker
+	 * @param r
+	
+	 * @return boolean */
+	public boolean addRecipe(Recipe r) {
+<span class="fc" id="L37">        boolean canAddRecipe = false;</span>
+<span class="fc" id="L38">        Recipe checkRecipe = null;</span>
+<span class="fc" id="L39">        int i = 0;</span>
+        
+        //Check if the recipe already exists
+<span class="fc" id="L42">        checkRecipe = getRecipeForName(r.getName());</span>
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        if(checkRecipe.getName() != null){</span>
+<span class="nc" id="L44">        	canAddRecipe = false;</span>
+        }
+        
+        //Check for an empty recipe, add recipe to first empty spot
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        if(canAddRecipe) {</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        	for(i = 0; i &lt; NUM_RECIPES; i++) {</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        		if(recipeFull[i] != false) {</span>
+<span class="nc" id="L51">            		recipeArray[i] = r;</span>
+<span class="nc" id="L52">            		recipeFull[i] = true;</span>
+        		}
+        	}
+        }
+<span class="fc" id="L56">        return canAddRecipe;</span>
+    }
+    
+	/**
+	 * Returns true if the recipe was deleted from the 
+	 * coffee maker
+	 * @param r
+	
+	 * @return boolean */
+    public boolean deleteRecipe(Recipe r) {
+<span class="fc" id="L66">        boolean canDeleteRecipe = false;</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">        if(r != null) {</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">	        for(int i = 0; i &lt; NUM_RECIPES; i++) {</span>
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">	            if(r.equals(recipeArray[i])) {</span>
+<span class="nc" id="L70">	                canDeleteRecipe = true;</span>
+	            }
+	        }
+        }
+<span class="fc" id="L74">        return canDeleteRecipe;</span>
+    }
+    
+    /**
+     * Returns true if the recipe is successfully edited
+     * @param oldRecipe
+     * @param newRecipe
+    
+     * @return boolean */
+    public boolean editRecipe(Recipe oldRecipe, Recipe newRecipe) {
+<span class="fc" id="L84">        boolean canEditRecipe = false;</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        for(int i = 0; i &lt; NUM_RECIPES; i++) {</span>
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">        	if(recipeArray[i].getName() != null) {</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">	            if(oldRecipe.equals(recipeArray[i].getName())) { </span>
+<span class="nc" id="L88">	            	recipeArray[i] = newRecipe;</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">	            	if(addRecipe(newRecipe)) {</span>
+<span class="nc" id="L90">	            		canEditRecipe = true;</span>
+<span class="nc" id="L91">	            	} else {</span>
+<span class="nc" id="L92">	            		canEditRecipe = false;</span>
+	            	}
+	            }
+        	}
+        }
+<span class="fc" id="L97">        return canEditRecipe;</span>
+    }
+    
+    /**
+     * Returns true if inventory was successfully added
+     * @param amtCoffee
+     * @param amtMilk
+     * @param amtSugar
+     * @param amtChocolate
+    
+     * @return boolean */
+    public boolean addInventory(int amtCoffee, int amtMilk, int amtSugar, int amtChocolate) {
+<span class="fc" id="L109">        boolean canAddInventory = true;</span>
+<span class="fc bfc" id="L110" title="All 8 branches covered.">        if(amtCoffee &lt; 0 || amtMilk &lt; 0 || amtSugar &gt; 0 || amtChocolate &lt; 0) { </span>
+<span class="fc" id="L111">            canAddInventory = false;</span>
+<span class="fc" id="L112">        }</span>
+        else {
+<span class="fc" id="L114">	        inventory.setCoffee(inventory.getCoffee() + amtCoffee);</span>
+<span class="fc" id="L115">	        inventory.setMilk(inventory.getMilk() + amtMilk);</span>
+<span class="fc" id="L116">	        inventory.setSugar(inventory.getSugar() + amtSugar);</span>
+<span class="fc" id="L117">	        inventory.setChocolate(inventory.getChocolate() + amtChocolate);</span>
+        }
+<span class="fc" id="L119">        return canAddInventory;</span>
+    }
+    
+    /**
+     * Returns the inventory of the coffee maker
+    
+     * @return Inventory */
+    public Inventory checkInventory() {
+<span class="fc" id="L127">        return inventory;</span>
+    }
+    
+    /**
+     * Returns the change of a user's beverage purchase, or
+     * the user's money if the beverage cannot be made
+     * @param r
+     * @param amtPaid
+    
+     * @return int */
+    public int makeCoffee(Recipe r, int amtPaid) {
+<span class="fc" id="L138">        boolean canMakeCoffee = true;</span>
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">        if(amtPaid &lt; r.getPrice()) {</span>
+<span class="nc" id="L140">            canMakeCoffee = false;</span>
+        }
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">        if(!inventory.enoughIngredients(r)) {</span>
+<span class="nc" id="L143">            canMakeCoffee = false;</span>
+        }
+<span class="pc bpc" id="L145" title="1 of 2 branches missed.">        if(canMakeCoffee) {</span>
+<span class="fc" id="L146">	        inventory.setCoffee(inventory.getCoffee() + r.getAmtCoffee()); </span>
+<span class="fc" id="L147">	        inventory.setMilk(inventory.getMilk() - r.getAmtMilk());</span>
+<span class="fc" id="L148">	        inventory.setSugar(inventory.getSugar() - r.getAmtSugar());</span>
+<span class="fc" id="L149">	        inventory.setChocolate(inventory.getChocolate() - r.getAmtChocolate());</span>
+<span class="fc" id="L150">            return amtPaid - r.getPrice();</span>
+        }
+        else {
+<span class="nc" id="L153">            return amtPaid;</span>
+        }
+    }
+
+    /**
+     * Returns an array of all the recipes
+    
+     * @return Recipe[] */
+    public Recipe[] getRecipes() {
+<span class="fc" id="L162">        return recipeArray;</span>
+    }
+
+    /**
+     * Returns the Recipe associated with the given name
+     * @param name
+    
+     * @return Recipe */
+	public Recipe getRecipeForName(String name) {
+<span class="fc" id="L171">		Recipe r = new Recipe();</span>
+<span class="fc bfc" id="L172" title="All 2 branches covered.">		for(int i = 0; i &lt; NUM_RECIPES; i++) {</span>
+<span class="pc bpc" id="L173" title="1 of 2 branches missed.">			if(recipeArray[i].getName() != null) { </span>
+<span class="nc bnc" id="L174" title="All 2 branches missed.">				if((recipeArray[i].getName()).equals(name)) {</span>
+<span class="nc" id="L175">					r = recipeArray[i];</span>
+				}
+			}
+		}
+<span class="fc" id="L179">		return r;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span>CoffeeMakerTest (Mar 19, 2017 11:46:11 PM)</div></body></html>

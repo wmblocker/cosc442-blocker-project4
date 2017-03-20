@@ -122,22 +122,7 @@ public class Recipe {
     		this.price = 0;
     	}
     } 
-    /**
-     * Method equals.
-     * @param r Recipe
-     * @return boolean
-     */
-    public boolean equals(String name) {
-    	boolean retVal = false;
-        if(name == null ||this.name == null ) {
-	    	retVal = false;
-    	}	
-        else
-        	if(getName().equals(name)) {
-            retVal = true;
-        }
-        return retVal;
-    }
+
     /**
      * Method toString.
      * @return String
