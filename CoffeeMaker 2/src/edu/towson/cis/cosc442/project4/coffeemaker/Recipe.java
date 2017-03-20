@@ -127,17 +127,16 @@ public class Recipe {
      * @param r Recipe
      * @return boolean
      */
-    public boolean equals(Recipe r) {
-        if(r.getName() == null) {
-	    	return false;
+    public boolean equals(String name) {
+    	boolean retVal = false;
+        if(name == null ||this.name == null ) {
+	    	retVal = false;
     	}	
-        if(this.name == null) {
-        	return false;
+        else
+        	if(getName().equals(name)) {
+            retVal = true;
         }
-        if((this.name).equals(r.getName())) {
-            return true;
-        }
-        return false;
+        return retVal;
     }
     /**
      * Method toString.
